@@ -29,12 +29,12 @@ app.get('/', async (req, res)=>{
         try {
             const user = await User.findOne({ email:req.cookies.email });
             if (!user) {
-                res.sendFile(path.join(__dirname, 'logSignPage.html'))
+                res.render('logSignPage.ejs')
             }
     
             const isMatch = await user.comparePassword(req.cookies.password);
             if (!isMatch) {
-                res.sendFile(path.join(__dirname, 'logSignPage.html'))
+                res.render('logSignPage.ejs')
             }
     
             res.render('index.ejs')
@@ -47,27 +47,27 @@ app.get('/', async (req, res)=>{
     if(req.cookies.NAME && req.cookies.PASSWORD && req.cookies.EMAIL){
         res.render('index.ejs')
     }else{
-        res.sendFile(path.join(__dirname, 'logSignPage.html'))
+        res.render('logSignPage.ejs')
     }
 })
 
 
-app.post('/Log.html', async (req, res)=>{
+app.post('/Log.ejs', async (req, res)=>{
     var NAME = req.body.name1
     var PASSWORD = req.body.pass1
     var EMAIL = req.body.em1
-    res.sendFile(path.join(__dirname,"views", 'Log.html'))
+    res.render('Log.ejs')
 
     try {
         const existingUser = await User.findOne({ $or: [{ NAME }, { EMAIL }] });
         if (existingUser) {
-            res.sendFile(path.join(__dirname,"views", 'Log.html'))
+            res.render('Log.ejs')
         }
         const user = new User({username:NAME, email:EMAIL, password:PASSWORD});
         await user.save();
 
         console.log(`Signup successful - Username: ${NAME}, Email: ${EMAIL}`);
-        res.sendFile(path.join(__dirname,"views", 'Log.html'))
+        res.render('Log.ejs')
     } catch (err) {
         console.error('Signup error:', err);
         res.send('An error occurred during signup');
