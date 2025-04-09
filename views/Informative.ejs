@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <meta http-equiv="Content-Security-Policy" content="script-src 'self'; style-src 'self' 'unsafe-inline';"> -->
+    <title>Preroda Info</title>
+    <link rel="stylesheet" href="public/css/style_info.css">
+    <script type="module" src="public/js/info_mod.js"></script>
+</head>
+
+<body>
+    <section id="section1">
+        <div id="header">
+            <span>
+                <a id="logoCont" href=""><img id="logo" src="public/Image/logo.jpg" alt=""></a>
+            </span>
+            <span id="innerHeader">
+                <span id="iiH">
+                    <span><a href="index.ejs">Home</a></span>
+                    <span><a href="Informative.ejs">Informative</a></span>
+                    <span><a href="#" id="UtilitiesLink">Utilities</a></span>
+                    <span><a href="About.ejs">About</a></span>
+                </span>
+                <span id="usercont"><img id="user" src="public/Image/user.jpg" alt=""></span>
+            </span>
+        </div>
+        <div class="goals-container">
+            <div class="tab-container">
+                <div id="1" class="tab active">Overview</div>
+                <div id="2" class="tab">Water Monitoring Model</div>
+                <div id="3" class="tab">Crop Recommendation Model</div>
+                <div id="4" class="tab">UNet</div>
+            </div>
+            <div id="overview" class="content active">
+                <ul>
+                    <li><span class="highlight">Data Acquisition:</span> Use Google Earth Engine (GEE) to access
+                        Sentinel-2 imagery, filtering data for Egypt (Oct-Dec 2024, <20% cloud cover) and exporting key
+                            bands (B2, B3, B4, B8, B11, B12) as GeoTIFFs.</li>
+                    <li><span class="highlight">Cloud Masking:</span> Apply QA60 band or GEE algorithms to remove cloudy
+                        pixels, ensuring data quality for analysis.</li>
+                    <li><span class="highlight">Preprocessing:</span> Rescale pixel values to [0, 1] and resize images
+                        to 256x256 pixels for U-Net model compatibility.</li>
+                    <li><span class="highlight">Radiometric Correction:</span> Normalize reflectance across images for
+                        consistent water and vegetation analysis.</li>
+                    <li><span class="highlight">Why GEE?:</span> Leverage GEE’s cloud infrastructure for efficient,
+                        large-scale satellite data processing.</li>
+                    <li><span class="highlight">Enhance Pollution Management:</span> Provide actionable insights into
+                        pollution causes and locations to enable timely interventions, reducing environmental damage and
+                        protecting aquatic ecosystems.</li>
+                    <li><span class="highlight">Support Sustainable Agriculture:</span> Recommend crops tailored to
+                        local water availability and vegetation health, ensuring farming practices align with
+                        environmental conditions.</li>
+                    <li><span class="highlight">Promote Environmental Conservation:</span> Contribute to cleaner water
+                        bodies and healthier ecosystems by integrating pollution detection with sustainable land-use
+                        strategies.</li>
+                    <li><span class="highlight">Leverage Satellite Technology:</span> Harness the power of Sentinel-2’s
+                        multispectral data to deliver scalable, data-driven solutions for environmental and agricultural
+                        challenges.</li>
+                    <li><span class="highlight">Empower Communities:</span> Equip farmers and environmental managers
+                        with tools and knowledge to make informed decisions that benefit both their livelihoods and the
+                        planet.</li>
+                </ul>
+            </div>
+            <div id="water" class="content">
+                <ul>
+                    <li><span class="highlight">Monitor Water Quality:</span> Utilize advanced computer vision
+                        techniques to detect and analyze water pollution, identifying sources such as industrial waste,
+                        agricultural runoff, and natural contaminants with high accuracy.</li>
+                    <li><span class="highlight">Prevent Water Resource Misuse:</span> Minimize the use of polluted water
+                        in agriculture and avoid overexploitation of water reserves, promoting long-term resource
+                        conservation.</li>
+                    <li><span class="highlight">Water Indices:</span> Calculate NDWI, MNDWI, and AWEI to detect water
+                        bodies and assess their properties.</li>
+                    <li><span class="highlight">Pollution Indicators:</span> Measure turbidity, TSS, Chlorophyll-A,
+                        CDOM, and Secchi Disk Depth to identify pollution levels.</li>
+                    <li><span class="highlight">Pollution Classification:</span> Train the model to distinguish
+                        industrial waste, agricultural runoff, and natural contaminants using supervised learning.</li>
+                    <li><span class="highlight">Validation:</span> Assess model accuracy with ground truth data from
+                        water quality stations in Egypt, achieving high precision (>85%).</li>
+                    <li><span class="highlight">Real-Time Monitoring:</span> Integrate the trained model with GEE to
+                        process new Sentinel-2 imagery for continuous pollution tracking.</li>
+                    <li><span class="highlight">Output Visualization:</span> Generate heatmaps and pollution risk maps
+                        overlaid on Egypt’s water bodies for actionable insights.</li>
+                </ul>
+            </div>
+            <div id="crop" class="content">
+                <ul>
+                    <li><span class="highlight">Improve Farm Productivity:</span> Boost agricultural yields and farm
+                        resilience by guiding farmers toward optimal crop choices suited to their region’s specific
+                        needs.</li>
+                    <li><span class="highlight">Vegetation Health:</span> Evaluate Vegetation In Water (VIW) to support
+                        crop recommendation models.</li>
+                    <li><span class="highlight">Purpose:</span> Address water pollution and agricultural challenges
+                        holistically.</li>
+                    <li><span class="highlight">Technology:</span> Leverages multispectral data and computer vision.
+                    </li>
+                    <li><span class="highlight">Impact:</span> Enhances farm productivity and ecosystem health globally.
+                    </li>
+                    <li><span class="highlight">Input Data Integration:</span> Combine water quality data from the
+                        pollution model with soil moisture and vegetation indices from Sentinel-2 imagery.</li>
+                    <li><span class="highlight">Crop Suitability Analysis:</span> Evaluate regional water availability
+                        and pollution levels to match crops with optimal growing conditions.</li>
+                    <li><span class="highlight">Vegetation Indices:</span> Use NDVI (Normalized Difference Vegetation
+                        Index) and EVI (Enhanced Vegetation Index) to assess current vegetation health and productivity
+                        potential.</li>
+                    <li><span class="highlight">Recommendation Algorithm:</span> Apply a decision-support system that
+                        ranks crops based on water purity, climate data, and soil compatibility.</li>
+                    <li><span class="highlight">Crop Database:</span> Maintain a library of crop profiles (e.g., water
+                        needs, pollution tolerance) to inform tailored recommendations for Egypt’s regions.</li>
+                    <li><span class="highlight">Farmer Guidance:</span> Provide actionable outputs, such as crop lists
+                        and planting schedules, to optimize yields and minimize resource use.</li>
+                    <li><span class="highlight">Validation with Field Data:</span> Cross-check recommendations against
+                        local agricultural yields and farmer feedback to refine the system’s accuracy.</li>
+                </ul>
+            </div>
+            <div id="unet" class="content">
+                <ul>
+                    <li><span class="highlight">Semantic Segmentation:</span> Utilize U-Net’s architecture to segment
+                        water bodies from Sentinel-2 imagery, isolating areas for pollution analysis.</li>
+                    <li><span class="highlight">Encoder-Decoder Design:</span> Leverage U-Net’s contracting path to
+                        extract features and expansive path to reconstruct detailed pollution maps.</li>
+                    <li><span class="highlight">Skip Connections:</span> Employ U-Net’s skip connections to preserve
+                        spatial details across layers, enhancing detection of fine pollution patterns.</li>
+                    <li><span class="highlight">Loss Function:</span> Use a combination of binary cross-entropy and Dice
+                        loss to optimize U-Net for accurate water and pollution segmentation.</li>
+                    <li><span class="highlight">Multi-Band Input:</span> Feed U-Net with Sentinel-2’s multispectral
+                        bands (e.g., B2, B4, B8, B11) to capture diverse pollution signatures.</li>
+                    <li><span class="highlight">Hyperparameter Tuning:</span> Adjust U-Net’s learning rate, batch size,
+                        and depth to balance performance and computational efficiency.</li>
+                    <li><span class="highlight">Post-Processing:</span> Apply U-Net’s output masks to refine pollution
+                        boundaries, improving visualization and classification accuracy.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+
+
+</body>
+
+</html>

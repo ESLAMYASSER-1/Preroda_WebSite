@@ -1,0 +1,147 @@
+:root {
+    --card-height: 600px;
+    --card-width: calc(var(--card-height) / 1.5);
+  }
+* {
+box-sizing: border-box;
+}
+html, body {
+    margin: 0;
+    padding: 0;
+}
+body{
+    background-color: black;
+}
+
+#section1 {
+    background-image: url('../Image/BG7.jpg');
+    background-size: 100vw 150vh;
+    background-repeat: no-repeat;
+    background-position: center center;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+#header{
+    background-color: rgba(255, 255, 255, 0.7);
+    height: 7vh;
+    width: 65%;
+    position: relative;
+    top: 11%;
+    left: 17.5%;
+    border-radius: 10px 10px 10px 10px;
+    display: flex;
+    justify-content: space-between;
+}
+#header1{
+    background-color: rgba(255, 255, 255, 0.7);
+    height: 7vh;
+    width: 90%;
+    position: fixed;
+    top: 2%;
+    left: 5%;
+    border-radius: 10px 10px 10px 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#logoCont{
+    position: relative;
+    top: 10px;
+    left: 10px;
+}
+#logo{
+    height: 75%;
+    width: 100%;
+    border-radius: 10%;
+}
+
+#innerHeader{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 40%;
+    position: relative;
+    right: -5%;
+}
+#iiH{
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+}
+#iiH a{
+    text-decoration: none;
+    font: bold 17px/20px sans-serif;
+    color: #44048d;
+    padding: 7%;
+}
+#iiH a:hover {
+	background: #07afcc;
+}
+#usercont{
+  width: 40%;
+}
+#user{
+    /* height: 30%; */
+    width: 35%;
+    border-radius: 50%;
+}
+
+.goals-container {
+    max-width: 800px;
+    margin: 120px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+.tab-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+.tab {
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #ecf0f1;
+    color: #2c3e50;
+    border-radius: 5px 5px 0 0;
+    margin: 0 5px;
+    font-size: 18px;
+    transition: background-color 0.3s;
+}
+.tab.active, .tab:hover {
+    background-color: #3498db;
+    color: white;
+}
+.content {
+    display: none;
+}
+.content.active {
+    display: block;
+}
+.content ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+.content li {
+    position: relative;
+    padding-left: 25px;
+    margin: 10px 0;
+    color: #555;
+    font-size: 16px;
+}
+.content li:before {
+    content: "•";
+    color: #3498db;
+    font-size: 20px;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+.highlight {
+    font-weight: bold;
+    color: #2980b9;
+}

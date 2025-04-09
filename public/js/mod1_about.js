@@ -10,25 +10,16 @@ function myFunction() {
 }
 
 
-var btn_12 = document.getElementsByClassName("btn-12")[0]
-btn_12.addEventListener('click', ()=>{
-    window.scrollTo({
-        top: 1000,
-        behavior: "smooth",
-      });
-    
-})
-
-
-
-
 var UtilitiesLink = document.getElementById("UtilitiesLink")
 UtilitiesLink.addEventListener('click', ()=>{
-    window.scrollTo({
-        top: 1000,
-        behavior: "smooth",
-      });
-    
+    window.location.href = '/'
+    setTimeout(()=>{
+        window.scrollTo({
+            top: 1000,
+            behavior: "smooth",
+          });
+          console.log("ok")
+      }, 30);    
 })
 
 function clearCookie(cookieName) {
@@ -46,6 +37,3 @@ userImage.addEventListener('click',()=>{
     window.location.href="/"
   }  
 })
-
-
-
