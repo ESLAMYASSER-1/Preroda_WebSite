@@ -130,6 +130,9 @@ app.get('/Informative.ejs',(req, res)=>{
     return res.render('Informative.ejs')
 })
 
+app.get('/About.ejs',(req, res)=>{
+    return res.render('About.ejs')
+})
 
 app.listen(3000, ()=>{
     console.log(`Server is Listening on port.... http://localhost:3000/`)

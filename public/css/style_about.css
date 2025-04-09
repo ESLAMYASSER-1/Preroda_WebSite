@@ -87,3 +87,47 @@ body{
     width: 35%;
     border-radius: 50%;
 }
+
+.about-developer {
+    max-width: 700px;
+    display: flex;
+    background-color: rgba(255, 255, 255, 0.7);
+    gap: 25px;
+    padding: 25px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 6%;
+    margin-left: 30%;
+}
+
+.developer-image img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.developer-info {
+    flex: 1;
+}
+
+.info-field {
+    margin: 12px 0;
+}
+
+.label {
+    font-weight: bold;
+    margin-right: 10px;
+    color: #2500c9;
+    min-width: 100px;
+    display: inline-block;
+}
+
+.value {
+    color: #000000;
+}
+
+h2 {
+    margin-top: 0;
+    color: #2500c9;
+}
