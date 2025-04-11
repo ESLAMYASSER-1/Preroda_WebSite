@@ -33,10 +33,20 @@ app.use((req, res, next) => {
   });
 
 
-mongoose.connect('mongodb://localhost:27017/login-signup')
-.then(() => console.log('MongoDB connected'))
-.catch(err => console.error('MongoDB connection error:', err));
-
+  const connectWithRetry = () => {
+    console.log('Attempting MongoDB connection to mongodb://mongo:27017/myapp...');
+    mongoose.connect('mongodb://mongo:27017/myapp')
+      .then(() => {
+        console.log('Connected to MongoDB successfully');
+      })
+      .catch(err => {
+        console.error('MongoDB connection error:', err.message);
+        console.log('Retrying in 5 seconds...');
+        setTimeout(connectWithRetry, 500);
+      });
+  };
+  
+  connectWithRetry();
 
 app.post('/predict', upload.single('image'), async (req, res) => {
     try {

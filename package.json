@@ -21,6 +21,7 @@
     "helmet": "^8.0.0",
     "mongoose": "^8.12.1",
     "multer": "^1.4.5-lts.2",
+    "nodemon": "^3.1.9",
     "onnxruntime-node": "^1.21.0",
     "tiff": "^6.2.0"
   }
