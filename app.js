@@ -48,97 +48,97 @@ app.use((req, res, next) => {
   
   connectWithRetry();
 
-app.post('/predict', upload.single('image'), async (req, res) => {
-    try {
-        // Load TIFF image
-        const rawData = fs.readFileSync(req.file.path);
-        let tiffData;
+// app.post('/predict', upload.single('image'), async (req, res) => {
+//     try {
+//         // Load TIFF image
+//         const rawData = fs.readFileSync(req.file.path);
+//         let tiffData;
         
-        try {
-            // Attempt to decode TIFF
-            const decoded = tiff.decode(rawData, { ignoreImageTypes: false });
-            console.log('Decoded TIFF structure:', Object.keys(decoded));
+//         try {
+//             // Attempt to decode TIFF
+//             const decoded = tiff.decode(rawData, { ignoreImageTypes: false });
+//             console.log('Decoded TIFF structure:', Object.keys(decoded));
             
-            // Handle multi-page TIFF (use first page)
-            tiffData = Array.isArray(decoded) ? decoded[0] : decoded;
+//             // Handle multi-page TIFF (use first page)
+//             tiffData = Array.isArray(decoded) ? decoded[0] : decoded;
             
-            console.log('TIFF properties:', {
-                width: tiffData.width,
-                height: tiffData.height,
-                dataLength: tiffData.data ? tiffData.data.length : 'undefined',
-                dataType: tiffData.data ? tiffData.data.constructor.name : 'undefined'
-            });
-        } catch (decodeError) {
-            throw new Error(`TIFF decoding failed: ${decodeError.message}`);
-        }
+//             console.log('TIFF properties:', {
+//                 width: tiffData.width,
+//                 height: tiffData.height,
+//                 dataLength: tiffData.data ? tiffData.data.length : 'undefined',
+//                 dataType: tiffData.data ? tiffData.data.constructor.name : 'undefined'
+//             });
+//         } catch (decodeError) {
+//             throw new Error(`TIFF decoding failed: ${decodeError.message}`);
+//         }
 
-        // Validate TIFF data
-        if (!tiffData || typeof tiffData.width !== 'number' || 
-            typeof tiffData.height !== 'number' || !tiffData.data) {
-            throw new Error('Invalid TIFF structure: missing width, height, or data');
-        }
+//         // Validate TIFF data
+//         if (!tiffData || typeof tiffData.width !== 'number' || 
+//             typeof tiffData.height !== 'number' || !tiffData.data) {
+//             throw new Error('Invalid TIFF structure: missing width, height, or data');
+//         }
 
-        const width = tiffData.width;
-        const height = tiffData.height;
+//         const width = tiffData.width;
+//         const height = tiffData.height;
         
-        // Verify channel count
-        const expectedLength = width * height * 13;
-        if (!tiffData.data.length || tiffData.data.length < expectedLength) {
-            throw new Error(`Invalid channel count: expected ${expectedLength} values (13 channels), got ${tiffData.data.length || 0}`);
-        }
+//         // Verify channel count
+//         const expectedLength = width * height * 13;
+//         if (!tiffData.data.length || tiffData.data.length < expectedLength) {
+//             throw new Error(`Invalid channel count: expected ${expectedLength} values (13 channels), got ${tiffData.data.length || 0}`);
+//         }
 
-        // Create input tensor
-        const inputData = new Float32Array(tiffData.data);
-        const inputTensor = new ort.Tensor('float32', inputData, [1, 13, height, width]);
+//         // Create input tensor
+//         const inputData = new Float32Array(tiffData.data);
+//         const inputTensor = new ort.Tensor('float32', inputData, [1, 13, height, width]);
 
-        // Load ONNX model
-        const session = await ort.InferenceSession.create('./unet.onnx');
+//         // Load ONNX model
+//         const session = await ort.InferenceSession.create('./unet.onnx');
 
-        // Run inference
-        const feeds = { input: inputTensor };
-        const results = await session.run(feeds);
+//         // Run inference
+//         const feeds = { input: inputTensor };
+//         const results = await session.run(feeds);
 
-        const outputTensor = results.output;
-        const outputData = outputTensor.data;
+//         const outputTensor = results.output;
+//         const outputData = outputTensor.data;
 
-        // Convert predictions to base64 images
-        const predictedImages = [];
-        for (let channel = 0; channel < 7; channel++) {
-            const channelData = new Uint8Array(height * width);
-            const offset = channel * height * width;
+//         // Convert predictions to base64 images
+//         const predictedImages = [];
+//         for (let channel = 0; channel < 7; channel++) {
+//             const channelData = new Uint8Array(height * width);
+//             const offset = channel * height * width;
             
-            for (let i = 0; i < height * width; i++) {
-                const value = outputData[offset + i];
-                channelData[i] = Math.min(255, Math.max(0, Math.round(value * 255)));
-            }
+//             for (let i = 0; i < height * width; i++) {
+//                 const value = outputData[offset + i];
+//                 channelData[i] = Math.min(255, Math.max(0, Math.round(value * 255)));
+//             }
 
-            const canvas = require('canvas').createCanvas(width, height);
-            const ctx = canvas.getContext('2d');
-            const imageData = ctx.createImageData(width, height);
+//             const canvas = require('canvas').createCanvas(width, height);
+//             const ctx = canvas.getContext('2d');
+//             const imageData = ctx.createImageData(width, height);
             
-            for (let i = 0; i < channelData.length; i++) {
-                const idx = i * 4;
-                imageData.data[idx] = channelData[i];
-                imageData.data[idx + 1] = channelData[i];
-                imageData.data[idx + 2] = channelData[i];
-                imageData.data[idx + 3] = 255;
-            }
+//             for (let i = 0; i < channelData.length; i++) {
+//                 const idx = i * 4;
+//                 imageData.data[idx] = channelData[i];
+//                 imageData.data[idx + 1] = channelData[i];
+//                 imageData.data[idx + 2] = channelData[i];
+//                 imageData.data[idx + 3] = 255;
+//             }
             
-            ctx.putImageData(imageData, 0, 0);
-            predictedImages.push(canvas.toDataURL('image/png'));
-        }
+//             ctx.putImageData(imageData, 0, 0);
+//             predictedImages.push(canvas.toDataURL('image/png'));
+//         }
 
-        fs.unlinkSync(req.file.path);
-        res.json({ images: predictedImages });
-    } catch (error) {
-        console.error('Error details:', error);
-        fs.unlinkSync(req.file.path);
-        res.status(500).json({ 
-            error: 'Prediction failed', 
-            details: error.message 
-        });
-    }
-});
+//         fs.unlinkSync(req.file.path);
+//         res.json({ images: predictedImages });
+//     } catch (error) {
+//         console.error('Error details:', error);
+//         fs.unlinkSync(req.file.path);
+//         res.status(500).json({ 
+//             error: 'Prediction failed', 
+//             details: error.message 
+//         });
+//     }
+// });
 
 app.get('/', async (req, res)=>{
     if(req.cookies.email && req.cookies.password){
