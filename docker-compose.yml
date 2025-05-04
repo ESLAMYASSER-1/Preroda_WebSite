@@ -1,18 +1,43 @@
-version: '3.8'
 services:
-  app:
-    build: .
+  express:
+    build:
+
+      dockerfile: Dockerfile
     ports:
       - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - MONGO_URI=mongodb://mongo:27017/myapp
     depends_on:
       - mongo
+    networks:
+      - app-network
+
+  fastapi:
+    build:
+      context: ./fastapi
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
     environment:
-      - NODE_ENV=development
+      - MONGO_URI=mongodb://mongo:27017/myapp
+    depends_on:
+      - mongo
+    networks:
+      - app-network
+
   mongo:
     image: mongo:latest
     ports:
-      - "27017:27017"  # Host:27017 -> Container:27017
+      - "27017:27017"
     volumes:
       - mongo-data:/data/db
+    networks:
+      - app-network
+
 volumes:
   mongo-data:
+
+networks:
+  app-network:
+    driver: bridge

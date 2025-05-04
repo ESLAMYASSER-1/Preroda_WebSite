@@ -38,45 +38,12 @@ userImage.addEventListener('click',()=>{
   }  
 })
 
+
+
+
 var predictbtn = document.getElementById('predict')
 predictbtn.addEventListener('click', predict)
 
-async function predict() {
-    const input = document.getElementById('imageInput');
-    const outputDiv = document.getElementById('output');
-    
-    if (!input.files[0]) {
-        alert('Please select a TIFF file');
-        return;
-    }
-
-    outputDiv.innerHTML = 'Processing...';
-
-    const formData = new FormData();
-    formData.append('image', input.files[0]);
-
-    try {
-        const response = await fetch('/predict', {
-            method: 'POST',
-            body: formData
-        });
-        
-        const result = await response.json();
-        
-        if (result.error) {
-            outputDiv.innerHTML = 'Error: ' + result.error;
-            return;
-        }
-
-        // Display predicted images
-        outputDiv.innerHTML = '';
-        result.images.forEach((imgData, index) => {
-            const img = document.createElement('img');
-            img.src = imgData;
-            img.alt = `Prediction ${index + 1}`;
-            outputDiv.appendChild(img);
-        });
-    } catch (error) {
-        outputDiv.innerHTML = 'Error: ' + error.message;
-    }
+function predict(){
+  console.log('predict');
 }
