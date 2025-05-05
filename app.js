@@ -9,7 +9,8 @@ const mongoose = require('mongoose')
 const User = require('./models/Users');
 const multer = require('multer');
 const axios = require('axios');
-
+const FormData = require('form-data');
+const fs = require('fs');
 
 app.set('template engine', "ejs")
 
@@ -52,25 +53,21 @@ app.use((req, res, next) => {
   
   connectWithRetry();
 
-  app.post('/predict', upload.single('image'), async (req, res) => {
-    const name = req.body.name;
-    const filePath = path.join(__dirname, 'public', 'uploads', req.file.filename);
-  
-    const formData = new FormData();
-    formData.append('name', name);
-    formData.append('image', require('fs').createReadStream(filePath));
-  
+  app.post('/upload', upload.single('file'), async (req, res) => {
+    const form = new FormData();
+    console.log("before createReadStream");
+    form.append('file', fs.createReadStream(req.file.path), req.file.originalname);
+    console.log("after createReadStream");
+
     try {
-      const response = await axios.post('http://localhost:8000/predict', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      });
-      const resultImage = response.data.image_url;
-      res.render('index', { resultImage });
-    } catch (error) {
-      console.error(error);
-      res.status(500).send('Error processing image');
+        const response = await axios.post('http://localhost:8000/receive-file/', form, {
+            headers: form.getHeaders(),
+        });
+        res.json({ message: 'File forwarded to FastAPI', fastapiResponse: response.data });
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to forward file', details: err.message });
     }
-  });
+});
 
 app.get('/', async (req, res)=>{
     if(req.cookies.email && req.cookies.password){

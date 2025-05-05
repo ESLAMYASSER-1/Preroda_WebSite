@@ -1,1 +1,2 @@
-./fastapi/Final_Model.onnx
+*.onnx
+node_modules

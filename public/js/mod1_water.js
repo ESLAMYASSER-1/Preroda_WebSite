@@ -41,9 +41,33 @@ userImage.addEventListener('click',()=>{
 
 
 
-var predictbtn = document.getElementById('predict')
-predictbtn.addEventListener('click', predict)
+document.getElementById('uploadForm').addEventListener('submit', function (e) {
+  e.preventDefault();
 
-function predict(){
-  console.log('predict');
-}
+  const fileInput = document.getElementById('fileInput');
+  const file = fileInput.files[0];
+  const formData = new FormData();
+  formData.append('file', file);
+
+  const xhr = new XMLHttpRequest();
+
+  // Update progress
+  xhr.upload.addEventListener('progress', function (e) {
+    if (e.lengthComputable) {
+      const percent = Math.round((e.loaded / e.total) * 100);
+      document.getElementById('uploadProgress').value = percent;
+      document.getElementById('progressText').textContent = percent + '%';
+    }
+  });
+
+  xhr.onload = function () {
+    if (xhr.status === 200) {
+      alert('Upload successful!');
+    } else {
+      alert('Upload failed.');
+    }
+  };
+
+  xhr.open('POST', '/upload');
+  xhr.send(formData);
+});
